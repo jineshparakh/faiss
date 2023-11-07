@@ -1,0 +1,17 @@
+WARNING clustering 100000 points to 16000 centroids: please provide at least 624000 training points
+Time taken to read training set: 0.0174s
+Training level-1 quantizer
+Training L2 quantizer on 100000 vectors in 128D
+Adding centroids to quantizer
+Training IVF residual
+IndexIVF: no residual training
+Time taken to train index: 58.4419s
+Time taken to read training set: 0.2261s
+IndexIVFFlat::add_core: added 1000000 / 1000000 vectors
+Time taken to add base vectors to the index: 21.7353s
+Time taken to read query set: 0.0084s
+Time taken to read groundtruth: 0.0016s
+Time taken to search 10000 queries: 0.2851s
+R@1 = 0.4083
+R@10 = 0.4114
+R@100 = 0.4114

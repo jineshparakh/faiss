@@ -1,0 +1,16 @@
+Time taken to read training set: 0.0165s
+Training level-1 quantizer
+Training L2 quantizer on 100000 vectors in 128D
+Adding centroids to quantizer
+Training IVF residual
+IndexIVF: no residual training
+Time taken to train index: 0.3815s
+Time taken to read training set: 0.1053s
+IndexIVFFlat::add_core: added 1000000 / 1000000 vectors
+Time taken to add base vectors to the index: 6.7349s
+Time taken to read query set: 0.0025s
+Time taken to read groundtruth: 0.0008s
+Time taken to search 10000 queries: 18.9908s
+R@1 = 0.9207
+R@10 = 0.9286
+R@100 = 0.9286

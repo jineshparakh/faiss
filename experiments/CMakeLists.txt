@@ -1,0 +1,2 @@
+add_executable(composite_ivf_hnsw EXCLUDE_FROM_ALL composite_ivf_hnsw.cpp)
+target_link_libraries(composite_ivf_hnsw PRIVATE faiss)
