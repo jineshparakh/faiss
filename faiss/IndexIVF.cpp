@@ -84,6 +84,7 @@ void Level1Quantizer::train_q1(
             clus.train(n, x, *quantizer);
         }
         quantizer->is_trained = true;
+        quantizer->centroids = clus.centroids;
     } else if (quantizer_trains_alone == 2) {
         if (verbose) {
             printf("Training L2 quantizer on %zd vectors in %zdD%s\n",

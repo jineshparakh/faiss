@@ -35,6 +35,7 @@ struct Level1Quantizer {
     Index* quantizer = nullptr;
 
     /// number of inverted lists
+    /// number of centroids to be created
     size_t nlist = 0;
 
     /**

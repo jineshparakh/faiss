@@ -15,6 +15,7 @@
 #include <sstream>
 #include <string>
 #include <typeinfo>
+#include <vector>
 
 #define FAISS_VERSION_MAJOR 1
 #define FAISS_VERSION_MINOR 7
@@ -72,6 +73,8 @@ struct Index {
     /// set if the Index does not require training, or if training is
     /// done already
     bool is_trained;
+
+    std::vector<float> centroids;
 
     /// type of metric this index uses for search
     MetricType metric_type;
