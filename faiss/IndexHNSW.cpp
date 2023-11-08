@@ -33,6 +33,7 @@
 #include <faiss/utils/distances.h>
 #include <faiss/utils/random.h>
 #include <faiss/utils/sorting.h>
+#include<iostream>
 
 extern "C" {
 
@@ -277,6 +278,7 @@ void IndexHNSW::search(
         float* distances,
         idx_t* labels,
         const SearchParameters* params_in) const {
+    // std::cout<<"HNSW search\n";
     FAISS_THROW_IF_NOT(k > 0);
     FAISS_THROW_IF_NOT_MSG(
             storage,

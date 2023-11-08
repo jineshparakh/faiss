@@ -28,7 +28,7 @@
 #include <faiss/impl/CodePacker.h>
 #include <faiss/impl/FaissAssert.h>
 #include <faiss/impl/IDSelector.h>
-
+#include<iostream>
 namespace faiss {
 
 using ScopedIds = InvertedLists::ScopedIds;
@@ -294,6 +294,7 @@ void IndexIVF::search(
         float* distances,
         idx_t* labels,
         const SearchParameters* params_in) const {
+        // std::cout<<"Search function for query\n";
     FAISS_THROW_IF_NOT(k > 0);
     const IVFSearchParameters* params = nullptr;
     if (params_in) {
@@ -302,6 +303,7 @@ void IndexIVF::search(
     }
     const size_t nprobe =
             std::min(nlist, params ? params->nprobe : this->nprobe);
+    // std::cout<<"nprobe: "<<nprobe<<"\n";
     FAISS_THROW_IF_NOT(nprobe > 0);
 
     // search function for a subset of queries
@@ -313,7 +315,7 @@ void IndexIVF::search(
                                    IndexIVFStats* ivf_stats) {
         std::unique_ptr<idx_t[]> idx(new idx_t[n * nprobe]);
         std::unique_ptr<float[]> coarse_dis(new float[n * nprobe]);
-
+        // std::cout<<"in sub search function\n";
         double t0 = getmillisecs();
         quantizer->search(
                 n,

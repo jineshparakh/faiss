@@ -17,3 +17,7 @@
 /tests/test
 /tests/gtest/
 faiss/python/swigfaiss_avx2.swig
+.vscode/
+.DS_Store
+build/
+experiments/indexes/*

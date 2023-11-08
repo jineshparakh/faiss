@@ -18,6 +18,7 @@
 #include <faiss/utils/sorting.h>
 #include <faiss/utils/utils.h>
 #include <cstring>
+#include<iostream>
 
 namespace faiss {
 
@@ -34,6 +35,7 @@ void IndexFlat::search(
     IDSelector* sel = params ? params->sel : nullptr;
     FAISS_THROW_IF_NOT(k > 0);
 
+    // std::cout<<"SEARCH HERE\n";
     // we see the distances and labels as heaps
     if (metric_type == METRIC_INNER_PRODUCT) {
         float_minheap_array_t res = {size_t(n), size_t(k), labels, distances};

@@ -249,6 +249,7 @@ Index* parse_coarse_quantizer(
         return new MultiIndexQuantizer(d, 2, nbit);
     }
     if (match("IVF([0-9]+)_HNSW([0-9]*)")) {
+        std::cout<<"INDEXHNSWFLAT\n";
         nlist = std::stoi(sm[1].str());
         int hnsw_M = sm[2].length() > 0 ? std::stoi(sm[2]) : 32;
         return new IndexHNSWFlat(d, hnsw_M, mt);
@@ -301,6 +302,7 @@ IndexIVF* parse_IndexIVF(
     int d = quantizer->d;
 
     if (match("Flat")) {
+        std::cout<<"Flat index\n";
         return new IndexIVFFlat(get_q(), d, nlist, mt);
     }
     if (match("FlatDedup")) {
@@ -758,6 +760,7 @@ std::unique_ptr<Index> index_factory_sub(
     { // handle basic index types
         Index* index = parse_other_indexes(description, d, metric);
         if (index) {
+            std::cout<<"I hope not here\n";
             return std::unique_ptr<Index>(index);
         }
     }
@@ -765,6 +768,7 @@ std::unique_ptr<Index> index_factory_sub(
     // HNSW variants (it was unclear in the old version that the separator was a
     // "," so we support both "_" and ",")
     if (re_match(description, "HNSW([0-9]*)([,_].*)?", sm)) {
+        std::cout<<"IN HNSW part\n";
         int hnsw_M = mres_to_int(sm[1], 32);
         // We also accept empty code string (synonym of Flat)
         std::string code_string =
@@ -834,10 +838,12 @@ std::unique_ptr<Index> index_factory_sub(
 
     // IndexIVF
     {
+       
         size_t nlist;
         bool use_2layer;
         size_t comma = description.find(",");
         std::string coarse_string = description.substr(0, comma);
+         std::cout<<"coarse_string: "<<coarse_string<<"\n";
         // Match coarse quantizer part first
         std::unique_ptr<Index> quantizer(parse_coarse_quantizer(
                 description.substr(0, comma),
@@ -846,9 +852,14 @@ std::unique_ptr<Index> index_factory_sub(
                 parenthesis_indexes,
                 nlist,
                 use_2layer));
+        
+        std::cout<<"quantizer.istrained: "<<quantizer->is_trained<<"\n";
 
         if (comma != std::string::npos && quantizer.get()) {
+            std::cout<<"quantizer.get(): "<<quantizer.get()<<"\n";
             std::string code_description = description.substr(comma + 1);
+            std::cout<<"code_description: "<<code_description<<"\n";
+            std::cout<<"use_2layer: "<<use_2layer<<"\n";
             if (use_2layer) {
                 bool ok =
                         re_match(code_description, "PQ([0-9]+)(x[0-9]+)?", sm);

@@ -1,10 +1,12 @@
-Time taken to read training set: 0.0152s
+Time taken to read training set: 0.0186s
 begin parse VectorTransforms: IVF165_HNSW128,Flat 
 after () normalization: IVF165_HNSW128,Flat 0 parenthesis indexes d=128
 coarse_string: IVF165_HNSW128
 INDEXHNSWFLAT
-quantizer.get(): 0x143809800
+quantizer.istrained: 1
+quantizer.get(): 0x12f009800
 code_description: Flat
+use_2layer: 0
 Flat index
 Training level-1 quantizer
 Training L2 quantizer on 100000 vectors in 128D
@@ -21,13 +23,26 @@ SEARCH HERE
 Adding centroids to quantizer
 Training IVF residual
 IndexIVF: no residual training
-Time taken to train index: 0.3903s
-Time taken to read training set: 0.0900s
+Time taken to train index: 0.4165s
+Time taken to read training set: 0.1618s
+HNSW search
 IndexIVFFlat::add_core: added 1000000 / 1000000 vectors
-Time taken to add base vectors to the index: 8.0344s
-Time taken to read query set: 0.0027s
-Time taken to read groundtruth: 0.0007s
-Time taken to search 10000 queries: 18.1882s
+Time taken to add base vectors to the index: 8.6883s
+Time taken to read query set: 0.0063s
+Time taken to read groundtruth: 0.0045s
+Search function for query
+nprobe: 5
+HNSW search
+HNSW search
+HNSW search
+HNSW search
+HNSW search
+HNSW search
+HNSW search
+HNSW search
+HNSW search
+HNSW search
+Time taken to search 10000 queries: 18.9156s
 R@1 = 0.9232
 R@10 = 0.9311
 R@100 = 0.9311
