@@ -9,6 +9,7 @@
 #include <chrono>
 #include <iostream>
 
+// read fvecs input file
 float* fvecs_read(const char* fname, size_t* d_out, size_t* n_out) {
     FILE* f = fopen(fname, "r");
     if (!f) {
@@ -57,10 +58,14 @@ auto timeNow() {
 }
 
 int main(int argc, char* argv[]) {
+
+    // sanity check for ivecs reading
     assert(sizeof(int) == sizeof(float));
     auto start = timeNow(), end = timeNow();
+
     faiss::IndexIVFFlat* ivf_index;
 
+    // read all the command line args
     std::string use_pre_existing = argv[1];
     size_t M;
     sscanf(argv[2], "%zu", &M);
@@ -73,6 +78,8 @@ int main(int argc, char* argv[]) {
     char* groundtruth_file = argv[8];
     char* index_params = argv[9];
 
+    // use_pre_existing == "1" when you want to reuse
+    // previously built index stored on disk.
     if (use_pre_existing == "1") {
         faiss::Index* i = faiss::read_index(index_file);
         ivf_index = dynamic_cast<faiss::IndexIVFFlat*>(i);
@@ -88,6 +95,24 @@ int main(int argc, char* argv[]) {
         end = timeNow();
         printf("Time taken to read training set: %.4fs\n", elapsed(start, end));
 
+
+        /*
+            Requirement:
+                Store centroids generated from IVF index into an HNSW index.
+                During search, do a quick search on HNSW index to find out
+                relevant centroids for IVF index search and then search only
+                on those centroids.
+
+            Solution:
+                1. Use IndexHNSWFlat as the quantizer for IndexIVFFlat.
+                   Set quantizer_trains_alone = 2
+                   This is done because:
+                    a. During IndexIVFFlat training phase, using KMeans
+                       clustering, the centroids are just stored in IndexHNSWFlat.
+                    b. During search, a quantizer search happens and then a
+                       pre-assigned search happens on the distances and ID's received
+                       from the quantizer.
+        */
         faiss::IndexHNSWFlat* quantizer =
                 new faiss::IndexHNSWFlat(training_set_dimensions, M);
         quantizer->verbose = true;
