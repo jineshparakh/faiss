@@ -24,7 +24,7 @@
 #include <faiss/utils/distances.h>
 #include <faiss/utils/random.h>
 #include <faiss/utils/utils.h>
-
+#include<iostream>
 namespace faiss {
 
 Clustering::Clustering(int d, int k) : d(d), k(k) {}
@@ -142,6 +142,7 @@ void compute_centroids(
     {
         int nt = omp_get_num_threads();
         int rank = omp_get_thread_num();
+        // std::cout<<"nt clustering: "<<nt<<"\n";
 
         // this thread is taking care of centroids c0:c1
         size_t c0 = (k * rank) / nt;
@@ -466,6 +467,7 @@ void Clustering::train_encoded(
             std::vector<float> hassign(k);
 
             size_t k_frozen = frozen_centroids ? n_input_centroids : 0;
+            // std::cout<<"omp_get_num_threads outside compute centroids: "<<omp_get_num_threads()<<"\n";
             compute_centroids(
                     d,
                     k,

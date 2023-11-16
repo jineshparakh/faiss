@@ -358,7 +358,8 @@ void IndexHNSW::add(idx_t n, const float* x) {
     int n0 = ntotal;
     storage->add(n, x);
     ntotal = storage->ntotal;
-
+    std::cout<<"hnsw.efConstruction: "<<hnsw.efConstruction<<"\n";
+    std::cout<<"hnsw.efSearch: "<<hnsw.efSearch<<"\n";
     hnsw_add_vertices(*this, n0, n, x, verbose, hnsw.levels.size() == ntotal);
 }
 

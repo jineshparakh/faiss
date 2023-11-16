@@ -1,0 +1,7 @@
+num_threads: 28
+Time taken to read query set: 0.0029s
+Time taken to read groundtruth: 0.0022s
+Time taken to search 10000 queries: 4.6085s
+R@1 = 0.9625
+R@10 = 0.9709
+R@100 = 0.9709

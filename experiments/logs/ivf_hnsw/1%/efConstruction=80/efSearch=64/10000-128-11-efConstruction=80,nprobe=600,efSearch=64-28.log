@@ -1,0 +1,9 @@
+num_threads: 28
+hnsw.efConstruction: 80
+hnsw.efSearch: 64
+Time taken to read query set: 0.0042s
+Time taken to read groundtruth: 0.0030s
+Time taken to search 10000 queries: 11.5542s
+R@1 = 0.9911
+R@10 = 0.9997
+R@100 = 0.9997

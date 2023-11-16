@@ -77,13 +77,23 @@ int main(int argc, char* argv[]) {
     char* query_file = argv[7];
     char* groundtruth_file = argv[8];
     char* index_params = argv[9];
+    int num_threads = atoi(argv[10]);
+    std::cout<<"num_threads: "<<num_threads<<"\n";;
 
+    omp_set_num_threads(num_threads);
     // use_pre_existing == "1" when you want to reuse
     // previously built index stored on disk.
     if (use_pre_existing == "1") {
         faiss::Index* i = faiss::read_index(index_file);
         ivf_index = dynamic_cast<faiss::IndexIVFFlat*>(i);
         ivf_index->verbose = true;
+        if (std::string(index_params) != "nil") {
+            faiss::ParameterSpace().set_index_parameters(ivf_index, index_params);
+        }
+
+        faiss::IndexHNSWFlat* q = dynamic_cast<faiss::IndexHNSWFlat*>(ivf_index->quantizer);
+        std::cout<<"hnsw.efConstruction: "<< q->hnsw.efConstruction<<"\n";
+        std::cout<<"hnsw.efSearch: "<< q->hnsw.efSearch<<"\n";
 
     } else {
         size_t training_set_dimensions, num_training_vectors;
@@ -123,7 +133,12 @@ int main(int argc, char* argv[]) {
         // imp
         ivf_index->quantizer_trains_alone = 2;
         ivf_index->own_fields = true;
+        if (std::string(index_params) != "nil") {
+            faiss::ParameterSpace().set_index_parameters(ivf_index, index_params);
+        }
 
+        std::cout<<"hnsw.efConstruction: "<< quantizer->hnsw.efConstruction<<"\n";
+        std::cout<<"hnsw.efSearch: "<< quantizer->hnsw.efSearch<<"\n";
         start = timeNow();
         ivf_index->train(num_training_vectors, training_set);
         end = timeNow();
@@ -132,11 +147,12 @@ int main(int argc, char* argv[]) {
         delete[] training_set;
 
         size_t base_set_dimensions, num_base_vectors;
+        start = timeNow();
         float* base_set = fvecs_read(
                 base_set_file, &base_set_dimensions, &num_base_vectors);
         end = timeNow();
         assert(training_set_dimensions == base_set_dimensions);
-        printf("Time taken to read training set: %.4fs\n", elapsed(start, end));
+        printf("Time taken to read base set: %.4fs\n", elapsed(start, end));
 
         start = timeNow();
         ivf_index->add(num_base_vectors, base_set);
@@ -147,7 +163,8 @@ int main(int argc, char* argv[]) {
 
         faiss::write_index(ivf_index, index_file);
     }
-
+    
+    
     size_t query_set_dimensions, num_queries;
     start = timeNow();
     float* query_set =
@@ -172,9 +189,7 @@ int main(int argc, char* argv[]) {
             new faiss::idx_t[num_queries * groundtruth_dimensions];
     float* distances = new float[num_queries * groundtruth_dimensions];
 
-    if (std::string(index_params) != "nil") {
-        faiss::ParameterSpace().set_index_parameters(ivf_index, index_params);
-    }
+
     start = timeNow();
     ivf_index->search(
             num_queries, query_set, groundtruth_dimensions, distances, indices);

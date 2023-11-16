@@ -99,6 +99,7 @@ void Level1Quantizer::train_q1(
                 (metric_type == METRIC_INNER_PRODUCT && cp.spherical));
 
         Clustering clus(d, nlist, cp);
+        clus.verbose = true;
         if (!clustering_index) {
             IndexFlatL2 assigner(d);
             clus.train(n, x, assigner);

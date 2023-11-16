@@ -1,0 +1,26 @@
+Time taken to read training set: 0.3159s
+Training level-1 quantizer
+Training L2 quantizer on 1000000 vectors in 128D
+Clustering 1000000 points in 128D to 10000 clusters, redo 1 times, 10 iterations
+  Preprocessing in 0.53 s
+  Iteration 0 (114.24 s, search 114.07 s): objective=5.92911e+10 imbalance=1.771 nsplit=3         Iteration 1 (228.93 s, search 228.64 s): objective=4.34677e+10 imbalance=1.368 nsplit=0         Iteration 2 (343.62 s, search 343.21 s): objective=4.22134e+10 imbalance=1.281 nsplit=0         Iteration 3 (458.89 s, search 458.35 s): objective=4.16853e+10 imbalance=1.244 nsplit=0         Iteration 4 (573.72 s, search 573.06 s): objective=4.13846e+10 imbalance=1.225 nsplit=0         Iteration 5 (688.30 s, search 687.52 s): objective=4.11885e+10 imbalance=1.213 nsplit=0         Iteration 6 (803.30 s, search 802.39 s): objective=4.10514e+10 imbalance=1.205 nsplit=0         Iteration 7 (918.28 s, search 917.24 s): objective=4.09481e+10 imbalance=1.199 nsplit=0         Iteration 8 (1033.34 s, search 1032.18 s): objective=4.08702e+10 imbalance=1.195 nsplit=0         Iteration 9 (1147.25 s, search 1145.95 s): objective=4.08091e+10 imbalance=1.192 nsplit=0       
+Adding centroids to quantizer
+hnsw.efConstruction: 40
+hnsw.efSearch: 16
+hnsw_add_vertices: adding 10000 elements on top of 0 (preset_levels=0)
+  max_level = 1
+Adding 67 elements at level 1
+Adding 9933 elements at level 0
+Done in 638.308 ms
+Training IVF residual
+IndexIVF: no residual training
+Time taken to train index: 1148.4329s
+Time taken to read training set: 1148.7215s
+IndexIVFFlat::add_core: added 1000000 / 1000000 vectors
+Time taken to add base vectors to the index: 19.7446s
+Time taken to read query set: 0.0018s
+Time taken to read groundtruth: 0.0021s
+Time taken to search 10000 queries: 3.6935s
+R@1 = 0.9719
+R@10 = 0.9802
+R@100 = 0.9802
